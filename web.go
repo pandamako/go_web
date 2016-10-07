@@ -45,6 +45,7 @@ func fetch_redirect_url(form url.Values) (string, error) {
   }
   return redirect_url.String(), nil
 }
+//..
 
 func main() {
   http.HandleFunc("/", root_handler)
