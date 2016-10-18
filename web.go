@@ -4,6 +4,7 @@ import(
   "net/http"
   "net/url"
   "log"
+  "time"
 )
 
 func root_handler(w http.ResponseWriter, r *http.Request) {
@@ -45,9 +46,9 @@ func fetch_redirect_url(form url.Values) (string, error) {
   }
   return redirect_url.String(), nil
 }
-//..
 
 func main() {
+  time.Sleep(time.Duration(20) * time.Millisecond)
   http.HandleFunc("/", root_handler)
   http.HandleFunc("/clicks", click_handler)
   log.Print("server started")

@@ -1,0 +1,40 @@
+GIT
+  remote: git://github.com/morr/file-permissions.git
+  revision: 910681afb2cb39b8505e0981288b30470e33c57d
+  specs:
+    capistrano-file-permissions (0.0.1)
+      capistrano (>= 3.0.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    airbrussh (1.1.1)
+      sshkit (>= 1.6.1, != 1.7.0)
+    capistrano (3.6.1)
+      airbrussh (>= 1.0.0)
+      capistrano-harrow
+      i18n
+      rake (>= 10.0.0)
+      sshkit (>= 1.9.0)
+    capistrano-golang (0.2.1)
+      capistrano (~> 3.0)
+    capistrano-harrow (0.5.3)
+    i18n (0.7.0)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (3.2.0)
+    rake (11.3.0)
+    sshkit (1.11.3)
+      net-scp (>= 1.1.2)
+      net-ssh (>= 2.8.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  capistrano
+  capistrano-file-permissions!
+  capistrano-golang
+
+BUNDLED WITH
+   1.11.2
