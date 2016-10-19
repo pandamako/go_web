@@ -1,10 +1,14 @@
 package main
+
 import(
   "fmt"
   "net/http"
   "net/url"
   "log"
   "time"
+
+  "github.com/fvbock/endless"
+  "github.com/gorilla/mux"
 )
 
 func root_handler(w http.ResponseWriter, r *http.Request) {
@@ -49,8 +53,18 @@ func fetch_redirect_url(form url.Values) (string, error) {
 }
 
 func main() {
-  http.HandleFunc("/", root_handler)
-  http.HandleFunc("/clicks", click_handler)
-  log.Print("server started")
-  http.ListenAndServe(":8080", nil)
+  // http.HandleFunc("/", root_handler)
+  // http.HandleFunc("/clicks", click_handler)
+  // log.Print("server started")
+  // http.ListenAndServe(":8080", nil)
+
+  mux := mux.NewRouter()
+  mux.HandleFunc("/", root_handler).Methods("GET")
+  mux.HandleFunc("/clicks", click_handler).Methods("GET")
+
+  err := endless.ListenAndServe(":8080", mux)
+  if err != nil {
+    log.Println(err)
+  }
+  log.Println("Server on 4242 stopped")
 }
