@@ -8,6 +8,7 @@ import(
 )
 
 func root_handler(w http.ResponseWriter, r *http.Request) {
+  time.Sleep(time.Duration(10) * time.Millisecond)
   log.Println("visit url /")
   fmt.Fprintf(w, "I'm fine.")
 }
@@ -48,7 +49,6 @@ func fetch_redirect_url(form url.Values) (string, error) {
 }
 
 func main() {
-  time.Sleep(time.Duration(20) * time.Millisecond)
   http.HandleFunc("/", root_handler)
   http.HandleFunc("/clicks", click_handler)
   log.Print("server started")
