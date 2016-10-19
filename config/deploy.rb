@@ -2,6 +2,7 @@
 lock '3.6.1'
 
 set :application, 'go_web'
+set :application_bin, 'web'
 set :repo_name, 'go_web'
 set :repo_url, ->{ "git@github.com:pandamako/#{fetch :repo_name}.git" }
 
@@ -71,30 +72,7 @@ namespace :go do
   desc 'restart service'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      execute "sudo /etc/init.d/#{fetch :application}_#{fetch :stage} restart"
-    end
-  end
-end
-
-namespace :unicorn do
-  desc "Stop unicorn"
-  task :stop do
-    on roles(:app), in: :sequence, wait: 5 do
-      execute "sudo /etc/init.d/#{fetch :application}_#{fetch :stage} stop"
-    end
-  end
-
-  desc "Start unicorn"
-  task :start do
-    on roles(:app), in: :sequence, wait: 5 do
-      execute "sudo /etc/init.d/#{fetch :application}_#{fetch :stage} start"
-    end
-  end
-
-  desc "Restart unicorn"
-  task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
-      execute "sudo /etc/init.d/#{fetch :application}_#{fetch :stage} upgrade"
+      execute "sudo /etc/init.d/#{fetch :application_bin}_#{fetch :stage} restart"
     end
   end
 end
