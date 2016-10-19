@@ -61,11 +61,17 @@ namespace :deploy do
 end
 
 namespace :go do
+  desc 'install dependencies'
+  task :dependencies do
+    on roles(:app), in: :sequence, wait: 5 do
+      exec_go_command 'go get ./...'
+    end
+  end
   desc 'compile binary from source'
   task :compile do
     on roles(:app), in: :sequence, wait: 5 do
       # execute "sudo /etc/init.d/#{fetch :application}_#{fetch :stage} stop" exec_go_command ""
-      exec_go_command "go build web.go"
+      exec_go_command 'go build web.go'
     end
   end
 
@@ -85,6 +91,7 @@ after 'deploy:finishing', 'deploy:cleanup'
 after 'deploy:published', 'deploy:set_permissions:chmod'
 after 'deploy:published', 'deploy:set_permissions:chown'
 after 'deploy:published', 'deploy:set_permissions:chgrp'
+after 'deploy:published', 'go:dependencies'
 after 'deploy:published', 'go:compile'
 after 'deploy:published', 'go:restart'
 
