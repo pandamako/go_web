@@ -12,7 +12,7 @@ import(
 )
 
 func root_handler(w http.ResponseWriter, r *http.Request) {
-  time.Sleep(time.Duration(10) * time.Millisecond)
+  time.Sleep(time.Duration(10) * time.Second)
   log.Println("visit url /")
   fmt.Fprintf(w, "I'm fine.")
 }

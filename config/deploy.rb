@@ -81,6 +81,13 @@ namespace :go do
       execute "sudo /etc/init.d/#{fetch :application_bin}_#{fetch :stage} restart"
     end
   end
+
+  desc 'upgrade service'
+  task :upgrade do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute "sudo /etc/init.d/#{fetch :application_bin}_#{fetch :stage} upgrade"
+    end
+  end
 end
 
 after 'deploy:starting', 'deploy:file:lock'
@@ -93,7 +100,7 @@ after 'deploy:published', 'deploy:set_permissions:chown'
 after 'deploy:published', 'deploy:set_permissions:chgrp'
 after 'deploy:published', 'go:dependencies'
 after 'deploy:published', 'go:compile'
-after 'deploy:published', 'go:restart'
+after 'deploy:published', 'go:upgrade'
 
 Airbrussh.configure do |config|
   config.truncate = false
