@@ -6,6 +6,9 @@ import(
   "net/url"
   "log"
   "time"
+  "flag"
+  "os"
+  "syscall"
 
   "github.com/fvbock/endless"
   "github.com/gorilla/mux"
@@ -14,7 +17,7 @@ import(
 func root_handler(w http.ResponseWriter, r *http.Request) {
   time.Sleep(time.Duration(10) * time.Second)
   log.Println("visit url /")
-  fmt.Fprintf(w, "I'm fine.")
+  fmt.Fprintf(w, "You're fine.")
 }
 
 func click_handler(w http.ResponseWriter, r *http.Request) {
@@ -52,17 +55,32 @@ func fetch_redirect_url(form url.Values) (string, error) {
   return redirect_url.String(), nil
 }
 
-func main() {
-  // http.HandleFunc("/", root_handler)
-  // http.HandleFunc("/clicks", click_handler)
-  // log.Print("server started")
-  // http.ListenAndServe(":8080", nil)
+func write_pid() {
+  f, err := os.Create(*pid_path)
+  if err != nil {
+    log.Fatal(err)
+  }
+  _, err = f.WriteString(fmt.Sprintf("%d", syscall.Getpid()))
+  f.Close()
+  if err != nil {
+    log.Fatal(err)
+  }
+}
 
+var pid_path = flag.String("p", "", "pid file")
+
+func main() {
+  flag.Parse()
   mux := mux.NewRouter()
   mux.HandleFunc("/", root_handler).Methods("GET")
   mux.HandleFunc("/clicks", click_handler).Methods("GET")
 
-  err := endless.ListenAndServe(":8080", mux)
+  server := endless.NewServer(":8080", mux)
+  server.BeforeBegin = func(add string) {
+    write_pid()
+    log.Println("pid changed")
+  }
+  err := server.ListenAndServe()
   if err != nil {
     log.Println(err)
   }
