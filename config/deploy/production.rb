@@ -1,8 +1,7 @@
 set :stage, :production
 set :deploy_to, "/home/apps/#{fetch :application}/#{fetch :stage}"
 set :branch, -> do
-  puts current_branch
-  if current_branch != 'master'
+  if !ENV['CODESHIP'] && current_branch != 'master'
     puts "You can publish to production only the master branch!!!".red
     abort
   end
