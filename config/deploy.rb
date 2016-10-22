@@ -100,7 +100,7 @@ after 'deploy:published', 'deploy:set_permissions:chown'
 after 'deploy:published', 'deploy:set_permissions:chgrp'
 after 'deploy:published', 'go:dependencies'
 after 'deploy:published', 'go:compile'
-after 'deploy:published', 'go:upgrade'
+# after 'deploy:published', 'go:upgrade'
 
 Airbrussh.configure do |config|
   config.truncate = false
