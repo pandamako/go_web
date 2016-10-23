@@ -17,7 +17,7 @@ import(
 func root_handler(w http.ResponseWriter, r *http.Request) {
   time.Sleep(time.Duration(10) * time.Second)
   log.Println("visit url /")
-  fmt.Fprintf(w, "You're fine.")
+  fmt.Fprintf(w, "I'm fine.")
 }
 
 func click_handler(w http.ResponseWriter, r *http.Request) {
